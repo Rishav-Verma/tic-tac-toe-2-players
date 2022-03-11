@@ -7,7 +7,14 @@ board_rows = 3
 board_columns = 3
 HEIGHT = 600
 Background = (20,170,156)
+circle_radius = 60
+circle_width = 15
+circle_colour = (239,231,200)
 linecolour = (23,145,135)
+SQUARE_SIZE = 200
+cross_width = 25
+space = 55
+cross_colour = (66,66,66)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tic Tac Toe for 2 Players")
 screen.fill(Background)
@@ -36,8 +43,39 @@ def draw_lines() :
     pygame.draw.line(screen, linecolour, (400,0), (400,600), linewidth)
 
 draw_lines()
+
+def draw_figures() :
+    for row in range(board_rows) :
+        for column in range(board_columns) :
+            if board[row][column] == 1 :
+                pygame.draw.circle( screen, circle_colour, (int( column * SQUARE_SIZE + SQUARE_SIZE//2 ), int( row * SQUARE_SIZE + SQUARE_SIZE//2 )), circle_radius, circle_width )
+            if board[row][column] == 2 :
+                pygame.draw.line(screen, cross_colour, (column*200+space,row*200-space+200), (column*200+200-space,row*200+space), cross_width)
+                pygame.draw.line(screen, cross_colour, (column*200+space, row*200+space), (column * 200 + 200 - space, row * 200 + 200 - space), cross_width )
+
+
+
+player =1
 while True :
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
             sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseX = event.pos[0]
+            mouseY = event.pos[1]
+            rowclicked = int(mouseY // 200)
+            columnclicked = int(mouseX//200)
+
+            print(rowclicked,columnclicked)
+
+            if available_square(rowclicked,columnclicked) :
+                if player == 1 :
+                    mark_square(rowclicked,columnclicked,1)
+                    player = 2
+                elif player == 2 :
+                    mark_square(rowclicked,columnclicked,2)
+                    player = 1
+                print(board)
+                draw_figures()
+
     pygame.display.update()
