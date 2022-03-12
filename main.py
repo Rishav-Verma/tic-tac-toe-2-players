@@ -52,7 +52,7 @@ def check_win(player) :
         if board[row][0] == player and board[row][1] == player and board[row][2] == player :
             draw_horizontal_winning_line(row,player)
             return True
-    if board[0][0] == player and board[1][1] == player and board[3][3] == player :
+    if board[0][0] == player and board[1][1] == player and board[2][2] == player :
         draw_des_diagnol(player)
         return True
     if board[2][0] == player and board[1][1] == player and board[0][2] == player :
